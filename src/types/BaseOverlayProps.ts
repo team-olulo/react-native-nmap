@@ -52,6 +52,11 @@ export interface BaseOverlayProps {
   /** 최대 줌 레벨이 포함될 때도 보이는 지 여부입니다. */
   isMaxZoomInclusive?: boolean;
   /**
+   * 터치 무시
+   * @default false
+   */
+  ignoreTouch?: boolean;
+  /**
    *  오버레이를 클릭했을 때의 이벤트입니다.
    *  @group Events
    */

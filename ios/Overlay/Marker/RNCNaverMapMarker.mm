@@ -17,6 +17,7 @@ using namespace facebook::react;
 @implementation RNCNaverMapMarker {
   RNCNaverMapImageCanceller _imageCanceller;
   BOOL _isImageSetFromSubview;
+  BOOL _ignoreTouch;
 }
 
 + (bool)shouldBeRecycled {
@@ -37,7 +38,9 @@ using namespace facebook::react;
   if ((self = [super init])) {
     _inner = [NMFMarker new];
     _isImageSetFromSubview = NO;
+    _ignoreTouch = NO;
 
+    /*
     _inner.touchHandler = [self](NMFOverlay* overlay) -> BOOL {
       if (self.emitter) {
         self.emitter->onTapOverlay({});
@@ -45,6 +48,8 @@ using namespace facebook::react;
       }
       return NO;
     };
+    */
+    [self ensureTouchHandler];
   }
 
   return self;
@@ -72,6 +77,11 @@ using namespace facebook::react;
  * The touch handler is responsible for processing tap events on the marker
  */
 - (void)ensureTouchHandler {
+  if (_ignoreTouch) {
+    _inner.touchHandler = nil;
+    return;
+  }
+
   if (!_inner.touchHandler) {
     _inner.touchHandler = [self](NMFOverlay* overlay) -> BOOL {
       if (self.emitter) {
@@ -228,6 +238,10 @@ using namespace facebook::react;
     _inner.subCaptionTextSize = caption.textSize;
     _inner.subCaptionMinZoom = caption.minZoom;
     _inner.subCaptionMaxZoom = caption.maxZoom;
+  }
+
+  if (prev.ignoreTouch != next.ignoreTouch) {
+    _ignoreTouch = next.ignoreTouch;
   }
 
   [super updateProps:props oldProps:oldProps];

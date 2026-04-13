@@ -1,23 +1,23 @@
-import hash from 'object-hash';
-import React, { Children, type PropsWithChildren } from 'react';
-import { type ColorValue, processColor } from 'react-native';
-import type { Double } from 'react-native/Libraries/Types/CodegenTypes';
+import hash from "object-hash";
+import React, { Children, type PropsWithChildren } from "react";
+import { type ColorValue, processColor } from "react-native";
+import type { Double } from "react-native/Libraries/Types/CodegenTypes";
 import {
   convertJsImagePropToNativeProp,
   getAlignIntValue,
-} from '../internal/Util';
-import { nAssert } from '../internal/util/Assert';
-import { Const } from '../internal/util/Const';
+} from "../internal/Util";
+import { nAssert } from "../internal/util/Assert";
+import { Const } from "../internal/util/Const";
 import {
   type NativeCaptionProp,
   default as NativeNaverMapMarker,
   type NativeSubCaptionProp,
-} from '../spec/RNCNaverMapMarkerNativeComponent';
-import type { Align } from '../types/Align';
-import type { BaseOverlayProps } from '../types/BaseOverlayProps';
-import type { Coord } from '../types/Coord';
-import type { MapImageProp } from '../types/MapImageProp.ts';
-import type { Point } from '../types/Point';
+} from "../spec/RNCNaverMapMarkerNativeComponent";
+import type { Align } from "../types/Align";
+import type { BaseOverlayProps } from "../types/BaseOverlayProps";
+import type { Coord } from "../types/Coord";
+import type { MapImageProp } from "../types/MapImageProp.ts";
+import type { Point } from "../types/Point";
 
 export interface CaptionType {
   /** 캡션으로 표시할 텍스트를 지정할 수 있습니다.
@@ -118,28 +118,26 @@ export interface SubCaptionType {
   maxZoom?: Double;
 }
 const defaultCaptionProps = {
-  text: '',
+  text: "",
   textSize: 12,
   minZoom: Const.MIN_ZOOM,
   maxZoom: Const.MAX_ZOOM,
-  color: 'black',
-  haloColor: 'transparent',
+  color: "black",
+  haloColor: "transparent",
   requestedWidth: 0,
 } satisfies Partial<CaptionType>;
 const defaultSubCaptionProps = {
-  text: '',
+  text: "",
   textSize: 10,
   minZoom: Const.MIN_ZOOM,
   maxZoom: Const.MAX_ZOOM,
-  color: 'black',
-  haloColor: 'transparent',
+  color: "black",
+  haloColor: "transparent",
   requestedWidth: 0,
 } satisfies Partial<SubCaptionType>;
 
 export interface NaverMapMarkerOverlayProps
-  extends BaseOverlayProps,
-    Coord,
-    PropsWithChildren<{}> {
+  extends BaseOverlayProps, Coord, PropsWithChildren<{}> {
   /**
    * 마커의 너비입니다.
    *
@@ -321,6 +319,7 @@ export const NaverMapMarkerOverlay = ({
   maxZoom = Const.MAX_ZOOM,
   isMinZoomInclusive,
   isMaxZoomInclusive,
+  ignoreTouch,
 
   width = Const.NULL_NUMBER,
   height = Const.NULL_NUMBER,
@@ -336,7 +335,7 @@ export const NaverMapMarkerOverlay = ({
   isIconPerspectiveEnabled,
 
   tintColor,
-  image = { symbol: 'green' },
+  image = { symbol: "green" },
   onTap,
   caption,
   subCaption,
@@ -344,7 +343,7 @@ export const NaverMapMarkerOverlay = ({
 }: NaverMapMarkerOverlayProps) => {
   nAssert(
     Children.count(children) <= 1,
-    `[NaverMapMarkerOverlay] children count should be equal or less than 1, is ${Children.count(children)}`
+    `[NaverMapMarkerOverlay] children count should be equal or less than 1, is ${Children.count(children)}`,
   );
 
   const _caption: NativeCaptionProp = (() => {
@@ -353,12 +352,12 @@ export const NaverMapMarkerOverlay = ({
       ...caption,
       align: getAlignIntValue(caption?.align),
       color: processColor(
-        caption?.color ?? defaultCaptionProps.color
+        caption?.color ?? defaultCaptionProps.color,
       ) as number,
       haloColor: processColor(
-        caption?.haloColor ?? defaultCaptionProps.haloColor
+        caption?.haloColor ?? defaultCaptionProps.haloColor,
       ) as number,
-    } satisfies Omit<NativeCaptionProp, 'key'>;
+    } satisfies Omit<NativeCaptionProp, "key">;
     return { ...inner, key: hash(inner) };
   })();
 
@@ -367,10 +366,10 @@ export const NaverMapMarkerOverlay = ({
       ...defaultSubCaptionProps,
       ...subCaption,
       color: processColor(
-        subCaption?.color ?? defaultSubCaptionProps.color
+        subCaption?.color ?? defaultSubCaptionProps.color,
       ) as number,
       haloColor: processColor(
-        subCaption?.haloColor ?? defaultSubCaptionProps.haloColor
+        subCaption?.haloColor ?? defaultSubCaptionProps.haloColor,
       ) as number,
     };
 
@@ -387,6 +386,7 @@ export const NaverMapMarkerOverlay = ({
       maxZoom={maxZoom}
       isMinZoomInclusive={isMinZoomInclusive}
       isMaxZoomInclusive={isMaxZoomInclusive}
+      ignoreTouch={ignoreTouch}
       width={width}
       height={height}
       alpha={alpha}

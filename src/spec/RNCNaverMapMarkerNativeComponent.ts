@@ -1,10 +1,10 @@
-import { codegenNativeComponent, type ViewProps } from 'react-native';
+import { codegenNativeComponent, type ViewProps } from "react-native";
 import type {
   DirectEventHandler,
   Double,
   Int32,
   WithDefault,
-} from 'react-native/Libraries/Types/CodegenTypes';
+} from "react-native/Libraries/Types/CodegenTypes";
 
 /* Type should be redeclared because of codegen ts parser doesn't allow imported type
  * [comments](https://github.com/reactwg/react-native-new-architecture/discussions/91#discussioncomment-4282452)
@@ -18,6 +18,7 @@ interface BaseOverlay {
   maxZoom: Double;
   isMinZoomInclusive?: WithDefault<boolean, true>;
   isMaxZoomInclusive?: WithDefault<boolean, true>;
+  ignoreTouch?: WithDefault<boolean, false>;
 }
 
 export type NativeCaptionProp = {
@@ -77,4 +78,4 @@ interface Props extends BaseOverlay, ViewProps {
   subCaption?: Readonly<NativeSubCaptionProp>;
 }
 
-export default codegenNativeComponent<Props>('RNCNaverMapMarker');
+export default codegenNativeComponent<Props>("RNCNaverMapMarker");

@@ -37,8 +37,11 @@ class RNCNaverMapMarker(
   private var lastCaptionKey = DEFAULT_CAPTION_KEY
   private var lastSubCaptionKey = DEFAULT_CAPTION_KEY
 
+  private var ignoreTouch = false
+
   override val overlay: Marker by lazy {
     Marker().apply {
+      /*
       setOnClickListener {
         reactContext.emitEvent(id) { surfaceId, reactTag ->
           NaverMapOverlayTapEvent(
@@ -48,6 +51,8 @@ class RNCNaverMapMarker(
         }
         true
       }
+      */
+      initClickListener(this)
     }
   }
 
@@ -169,6 +174,27 @@ class RNCNaverMapMarker(
       overlay.subCaptionRequestedWidth = map.getDouble("requestedWidth").px
       overlay.subCaptionMinZoom = map.getDouble("minZoom")
       overlay.subCaptionMaxZoom = map.getDouble("maxZoom")
+    }
+  }
+
+  fun setIgnoreTouch(value: Boolean) {
+    ignoreTouch = value
+
+    if (ignoreTouch) overlay.onClickListener = null
+    else initClickListener(overlay)
+  }
+
+  private fun initClickListener(marker: Marker) {
+    if (marker.onClickListener != null) return
+
+    marker.setOnClickListener {
+      reactContext.emitEvent(id) { surfaceId, reactTag ->
+        NaverMapOverlayTapEvent(
+          surfaceId,
+          reactTag,
+        )
+      }
+      true
     }
   }
 

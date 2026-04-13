@@ -238,6 +238,14 @@ class RNCNaverMapMarkerManager : RNCNaverMapMarkerManagerSpec<RNCNaverMapMarker>
     view?.updateSubCaption(value)
   }
 
+  @ReactProp(name = "ignoreTouch")
+  override fun setIgnoreTouch(
+    view: RNCNaverMapMarker?,
+    value: Boolean
+  ) {
+    view?.setIgnoreTouch(value)
+  }
+
   companion object {
     const val NAME = "RNCNaverMapMarker"
   }
