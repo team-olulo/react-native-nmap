@@ -108,6 +108,7 @@ export const NaverMapPathOverlay = ({
   maxZoom = Const.MAX_ZOOM,
   isMinZoomInclusive,
   isMaxZoomInclusive,
+  ignoreTouch,
 
   coords = [],
   width = 1,
@@ -146,6 +147,7 @@ export const NaverMapPathOverlay = ({
       width={width}
       isMinZoomInclusive={isMinZoomInclusive}
       isMaxZoomInclusive={isMaxZoomInclusive}
+      ignoreTouch={ignoreTouch}
       isHideCollidedCaptions={isHideCollidedCaptions}
       isHideCollidedMarkers={isHideCollidedMarkers}
       isHideCollidedSymbols={isHideCollidedSymbols}

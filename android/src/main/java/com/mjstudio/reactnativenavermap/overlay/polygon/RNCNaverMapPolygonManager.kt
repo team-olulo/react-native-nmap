@@ -135,6 +135,14 @@ class RNCNaverMapPolygonManager : RNCNaverMapPolygonManagerSpec<RNCNaverMapPolyg
     it.outlineColor = value
   }
 
+  @ReactProp(name = "ignoreTouch")
+  override fun setIgnoreTouch(
+    view: RNCNaverMapPolygon?,
+    value: Boolean,
+  ) {
+    view?.setIgnoreTouch(value)
+  }
+
   // region PROPS
 
   companion object {

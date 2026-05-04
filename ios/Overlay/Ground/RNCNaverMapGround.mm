@@ -14,6 +14,7 @@ using namespace facebook::react;
 
 @implementation RNCNaverMapGround {
   RNCNaverMapImageCanceller _imageCanceller;
+  BOOL _ignoreTouch;
 }
 static NSMutableDictionary* _overlayImageHolder;
 
@@ -30,6 +31,9 @@ static NSMutableDictionary* _overlayImageHolder;
 - (instancetype)init {
   if ((self = [super init])) {
     _inner = [NMFGroundOverlay new];
+    _ignoreTouch = NO;
+
+    /*
     _inner.touchHandler = [self](NMFOverlay* overlay) -> BOOL {
       // In New Arch, this always returns YES at now. should be fixed.
       if (self.emitter) {
@@ -38,6 +42,8 @@ static NSMutableDictionary* _overlayImageHolder;
       }
       return NO;
     };
+    */
+    [self ensureTouchHandler];
   }
 
   return self;
@@ -56,6 +62,22 @@ static NSMutableDictionary* _overlayImageHolder;
   if (_imageCanceller) {
     _imageCanceller();
     _imageCanceller = nil;
+  }
+}
+
+- (void)ensureTouchHandler {
+  if (_ignoreTouch) {
+    _inner.touchHandler = nil;
+    return;
+  }
+  if (!_inner.touchHandler) {
+    _inner.touchHandler = [self](NMFOverlay* overlay) -> BOOL {
+      if (self.emitter) {
+        self.emitter->onTapOverlay({});
+        return YES;
+      }
+      return NO;
+    };
   }
 }
 
@@ -96,6 +118,10 @@ static NSMutableDictionary* _overlayImageHolder;
       });
     });
   }
+
+  if (prev.ignoreTouch != next.ignoreTouch)
+    _ignoreTouch = next.ignoreTouch;
+  [self ensureTouchHandler];
 
   [super updateProps:props oldProps:oldProps];
 }

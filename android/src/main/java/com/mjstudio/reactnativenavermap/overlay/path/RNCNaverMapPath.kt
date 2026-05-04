@@ -2,8 +2,6 @@ package com.mjstudio.reactnativenavermap.overlay.path
 
 import android.annotation.SuppressLint
 import com.facebook.react.uimanager.ThemedReactContext
-import com.mjstudio.reactnativenavermap.event.NaverMapOverlayTapEvent
-import com.mjstudio.reactnativenavermap.util.emitEvent
 import com.mjstudio.reactnativenavermap.util.image.RNCNaverMapImageRenderableOverlay
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.overlay.OverlayImage
@@ -15,6 +13,7 @@ class RNCNaverMapPath(
 ) : RNCNaverMapImageRenderableOverlay<PathOverlay>(reactContext) {
   override val overlay: PathOverlay by lazy {
     PathOverlay().apply {
+      /*
       setOnClickListener {
         reactContext.emitEvent(id) { surfaceId, reactTag ->
           NaverMapOverlayTapEvent(
@@ -24,6 +23,8 @@ class RNCNaverMapPath(
         }
         true
       }
+      */
+      initClickListener(this)
     }
   }
 

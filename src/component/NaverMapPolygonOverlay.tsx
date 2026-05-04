@@ -51,6 +51,7 @@ export const NaverMapPolygonOverlay = ({
   maxZoom = Const.MAX_ZOOM,
   isMinZoomInclusive,
   isMaxZoomInclusive,
+  ignoreTouch,
 
   coords = [],
   holes = [],
@@ -86,6 +87,7 @@ export const NaverMapPolygonOverlay = ({
       }}
       isMinZoomInclusive={isMinZoomInclusive}
       isMaxZoomInclusive={isMaxZoomInclusive}
+      ignoreTouch={ignoreTouch}
       color={processColor(color) as number}
       outlineWidth={outlineWidth}
       outlineColor={processColor(outlineColor) as number}

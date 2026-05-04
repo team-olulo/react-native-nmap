@@ -16,6 +16,7 @@ using namespace facebook::react;
 #endif
 
 @implementation RNCNaverMapArrowheadPath {
+  BOOL _ignoreTouch;
 }
 
 - (std::shared_ptr<RNCNaverMapArrowheadPathEventEmitter const>)emitter {
@@ -27,7 +28,9 @@ using namespace facebook::react;
 - (instancetype)init {
   if ((self = [super init])) {
     _inner = [NMFArrowheadPath new];
+    _ignoreTouch = NO;
 
+    /*
     _inner.touchHandler = [self](NMFOverlay* overlay) -> BOOL {
       if (self.emitter) {
         self.emitter->onTapOverlay({});
@@ -35,6 +38,8 @@ using namespace facebook::react;
       }
       return NO;
     };
+    */
+    [self ensureTouchHandler];
   }
 
   return self;
@@ -47,6 +52,22 @@ using namespace facebook::react;
   }
 
   return self;
+}
+
+- (void)ensureTouchHandler {
+  if (_ignoreTouch) {
+    _inner.touchHandler = nil;
+    return;
+  }
+  if (!_inner.touchHandler) {
+    _inner.touchHandler = [self](NMFOverlay* overlay) -> BOOL {
+      if (self.emitter) {
+        self.emitter->onTapOverlay({});
+        return YES;
+      }
+      return NO;
+    };
+  }
 }
 
 - (void)updateProps:(Props::Shared const&)props oldProps:(Props::Shared const&)oldProps {
@@ -78,6 +99,10 @@ using namespace facebook::react;
     _inner.outlineColor = nmap::intToColor(next.outlineColor);
   if (prev.headSizeRatio != next.headSizeRatio)
     _inner.headSizeRatio = next.headSizeRatio;
+
+  if (prev.ignoreTouch != next.ignoreTouch)
+    _ignoreTouch = next.ignoreTouch;
+  [self ensureTouchHandler];
 
   // coords
   {

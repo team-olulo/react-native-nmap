@@ -14,6 +14,7 @@ using namespace facebook::react;
 
 @implementation RNCNaverMapMultiPath {
   RNCNaverMapImageCanceller _imageCanceller;
+  BOOL _ignoreTouch;
 }
 
 - (RCTBridge*)bridge {
@@ -29,7 +30,9 @@ using namespace facebook::react;
 - (instancetype)init {
   if ((self = [super init])) {
     _inner = [NMFMultipartPath new];
+    _ignoreTouch = NO;
 
+    /*
     _inner.touchHandler = [self](NMFOverlay* overlay) -> BOOL {
       if (self.emitter) {
         self.emitter->onTapOverlay({});
@@ -37,6 +40,8 @@ using namespace facebook::react;
       }
       return NO;
     };
+    */
+    [self ensureTouchHandler];
   }
 
   return self;
@@ -46,6 +51,22 @@ using namespace facebook::react;
   if (_imageCanceller) {
     _imageCanceller();
     _imageCanceller = nil;
+  }
+}
+
+- (void)ensureTouchHandler {
+  if (_ignoreTouch) {
+    _inner.touchHandler = nil;
+    return;
+  }
+  if (!_inner.touchHandler) {
+    _inner.touchHandler = [self](NMFOverlay* overlay) -> BOOL {
+      if (self.emitter) {
+        self.emitter->onTapOverlay({});
+        return YES;
+      }
+      return NO;
+    };
   }
 }
 
@@ -108,6 +129,10 @@ using namespace facebook::react;
     [_inner setIsHideCollidedMarkers:next.isHideCollidedMarkers];
   if (prev.isHideCollidedCaptions != next.isHideCollidedCaptions)
     [_inner setIsHideCollidedCaptions:next.isHideCollidedCaptions];
+
+  if (prev.ignoreTouch != next.ignoreTouch)
+    _ignoreTouch = next.ignoreTouch;
+  [self ensureTouchHandler];
 
   // pathParts - most important part for MultiPath
   {

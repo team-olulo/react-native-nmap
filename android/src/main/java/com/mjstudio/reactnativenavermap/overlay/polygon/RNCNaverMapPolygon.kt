@@ -2,9 +2,7 @@ package com.mjstudio.reactnativenavermap.overlay.polygon
 
 import android.annotation.SuppressLint
 import com.facebook.react.uimanager.ThemedReactContext
-import com.mjstudio.reactnativenavermap.event.NaverMapOverlayTapEvent
 import com.mjstudio.reactnativenavermap.overlay.RNCNaverMapOverlay
-import com.mjstudio.reactnativenavermap.util.emitEvent
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.overlay.PolygonOverlay
 
@@ -14,6 +12,7 @@ class RNCNaverMapPolygon(
 ) : RNCNaverMapOverlay<PolygonOverlay>(reactContext) {
   override val overlay: PolygonOverlay by lazy {
     PolygonOverlay().apply {
+      /*
       setOnClickListener {
         reactContext.emitEvent(id) { surfaceId, reactTag ->
           NaverMapOverlayTapEvent(
@@ -23,6 +22,8 @@ class RNCNaverMapPolygon(
         }
         true
       }
+      */
+      initClickListener(this)
     }
   }
 

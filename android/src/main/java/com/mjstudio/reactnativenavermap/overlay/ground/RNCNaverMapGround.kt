@@ -3,8 +3,6 @@ package com.mjstudio.reactnativenavermap.overlay.ground
 import android.annotation.SuppressLint
 import androidx.core.graphics.createBitmap
 import com.facebook.react.uimanager.ThemedReactContext
-import com.mjstudio.reactnativenavermap.event.NaverMapOverlayTapEvent
-import com.mjstudio.reactnativenavermap.util.emitEvent
 import com.mjstudio.reactnativenavermap.util.image.RNCNaverMapImageRenderableOverlay
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.overlay.GroundOverlay
@@ -19,6 +17,7 @@ class RNCNaverMapGround(
 
   override val overlay: GroundOverlay by lazy {
     GroundOverlay().apply {
+      /*
       setOnClickListener {
         reactContext.emitEvent(id) { surfaceId, reactTag ->
           NaverMapOverlayTapEvent(
@@ -28,6 +27,8 @@ class RNCNaverMapGround(
         }
         true
       }
+      */
+      initClickListener(this)
     }
   }
 

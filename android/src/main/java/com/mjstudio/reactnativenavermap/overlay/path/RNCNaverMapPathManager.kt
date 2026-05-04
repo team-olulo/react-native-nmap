@@ -196,6 +196,14 @@ class RNCNaverMapPathManager : RNCNaverMapPathManagerSpec<RNCNaverMapPath>() {
     it.isHideCollidedCaptions = value
   }
 
+  @ReactProp(name = "ignoreTouch")
+  override fun setIgnoreTouch(
+    view: RNCNaverMapPath?,
+    value: Boolean,
+  ) {
+    view?.setIgnoreTouch(value)
+  }
+
   // region PROPS
 
   companion object {

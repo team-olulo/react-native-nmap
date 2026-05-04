@@ -18,6 +18,7 @@ interface BaseOverlay {
   maxZoom: Double;
   isMinZoomInclusive?: WithDefault<boolean, true>;
   isMaxZoomInclusive?: WithDefault<boolean, true>;
+  ignoreTouch?: WithDefault<boolean, false>;
 }
 
 ////////////////////

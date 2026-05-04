@@ -12,7 +12,9 @@ using namespace facebook::react;
 
 @end
 
-@implementation RNCNaverMapPolyline
+@implementation RNCNaverMapPolyline {
+  BOOL _ignoreTouch;
+}
 
 - (std::shared_ptr<RNCNaverMapPolylineEventEmitter const>)emitter {
   if (!_eventEmitter)
@@ -23,7 +25,9 @@ using namespace facebook::react;
 - (instancetype)init {
   if ((self = [super init])) {
     _inner = [NMFPolylineOverlay new];
+    _ignoreTouch = NO;
 
+    /*
     _inner.touchHandler = [self](NMFOverlay* overlay) -> BOOL {
       // In New Arch, this always returns YES at now. should be fixed.
       if (self.emitter) {
@@ -32,6 +36,8 @@ using namespace facebook::react;
       }
       return NO;
     };
+    */
+    [self ensureTouchHandler];
   }
 
   return self;
@@ -44,6 +50,22 @@ using namespace facebook::react;
   }
 
   return self;
+}
+
+- (void)ensureTouchHandler {
+  if (_ignoreTouch) {
+    _inner.touchHandler = nil;
+    return;
+  }
+  if (!_inner.touchHandler) {
+    _inner.touchHandler = [self](NMFOverlay* overlay) -> BOOL {
+      if (self.emitter) {
+        self.emitter->onTapOverlay({});
+        return YES;
+      }
+      return NO;
+    };
+  }
 }
 
 - (void)updateProps:(Props::Shared const&)props oldProps:(Props::Shared const&)oldProps {
@@ -119,6 +141,10 @@ using namespace facebook::react;
       [arr addObject:@(p)];
     _inner.pattern = arr;
   }
+
+  if (prev.ignoreTouch != next.ignoreTouch)
+    _ignoreTouch = next.ignoreTouch;
+  [self ensureTouchHandler];
 
   [super updateProps:props oldProps:oldProps];
 }

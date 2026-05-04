@@ -38,6 +38,7 @@ export const NaverMapCircleOverlay = ({
   maxZoom = Const.MAX_ZOOM,
   isMinZoomInclusive,
   isMaxZoomInclusive,
+  ignoreTouch,
 
   radius = 0,
   color = 'black',
@@ -58,6 +59,7 @@ export const NaverMapCircleOverlay = ({
       maxZoom={maxZoom}
       isMinZoomInclusive={isMinZoomInclusive}
       isMaxZoomInclusive={isMaxZoomInclusive}
+      ignoreTouch={ignoreTouch}
       radius={radius}
       color={processColor(color) as number}
       outlineWidth={outlineWidth}

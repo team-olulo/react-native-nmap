@@ -151,6 +151,14 @@ class RNCNaverMapPolylineManager : RNCNaverMapPolylineManagerSpec<RNCNaverMapPol
       }
   }
 
+  @ReactProp(name = "ignoreTouch")
+  override fun setIgnoreTouch(
+    view: RNCNaverMapPolyline?,
+    value: Boolean,
+  ) {
+    view?.setIgnoreTouch(value)
+  }
+
   // region PROPS
 
   companion object {

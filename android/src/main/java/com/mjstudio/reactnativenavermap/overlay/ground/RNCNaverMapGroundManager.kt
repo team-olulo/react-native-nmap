@@ -105,6 +105,14 @@ class RNCNaverMapGroundManager : RNCNaverMapGroundManagerSpec<RNCNaverMapGround>
     }
   }
 
+  @ReactProp(name = "ignoreTouch")
+  override fun setIgnoreTouch(
+    view: RNCNaverMapGround?,
+    value: Boolean,
+  ) {
+    view?.setIgnoreTouch(value)
+  }
+
   // region PROPS
 
   companion object {

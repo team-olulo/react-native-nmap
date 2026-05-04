@@ -29,6 +29,7 @@ export const NaverMapGroundOverlay = ({
   maxZoom = Const.MAX_ZOOM,
   isMinZoomInclusive,
   isMaxZoomInclusive,
+  ignoreTouch,
   image,
   region,
   onTap,
@@ -42,6 +43,7 @@ export const NaverMapGroundOverlay = ({
       maxZoom={maxZoom}
       isMinZoomInclusive={isMinZoomInclusive}
       isMaxZoomInclusive={isMaxZoomInclusive}
+      ignoreTouch={ignoreTouch}
       region={region}
       image={convertJsImagePropToNativeProp(image)}
       onTapOverlay={onTap}

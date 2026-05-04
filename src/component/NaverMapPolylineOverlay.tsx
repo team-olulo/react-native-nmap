@@ -59,6 +59,7 @@ export const NaverMapPolylineOverlay = ({
   maxZoom = Const.MAX_ZOOM,
   isMinZoomInclusive,
   isMaxZoomInclusive,
+  ignoreTouch,
 
   coords = [],
   width = 1,
@@ -84,6 +85,7 @@ export const NaverMapPolylineOverlay = ({
       width={width}
       isMinZoomInclusive={isMinZoomInclusive}
       isMaxZoomInclusive={isMaxZoomInclusive}
+      ignoreTouch={ignoreTouch}
       color={processColor(color) as number}
       capType={capType}
       joinType={joinType}

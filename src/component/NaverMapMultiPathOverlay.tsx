@@ -80,6 +80,7 @@ export const NaverMapMultiPathOverlay = ({
   isHideCollidedSymbols,
   isMaxZoomInclusive,
   isMinZoomInclusive,
+  ignoreTouch,
   maxZoom = Const.MAX_ZOOM,
   minZoom = Const.MIN_ZOOM,
   onTap,
@@ -127,6 +128,7 @@ export const NaverMapMultiPathOverlay = ({
       width={width}
       isMinZoomInclusive={isMinZoomInclusive}
       isMaxZoomInclusive={isMaxZoomInclusive}
+      ignoreTouch={ignoreTouch}
       isHideCollidedCaptions={isHideCollidedCaptions}
       isHideCollidedMarkers={isHideCollidedMarkers}
       isHideCollidedSymbols={isHideCollidedSymbols}

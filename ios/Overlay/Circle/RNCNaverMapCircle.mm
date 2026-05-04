@@ -15,6 +15,7 @@ using namespace facebook::react;
 #endif
 
 @implementation RNCNaverMapCircle {
+  BOOL _ignoreTouch;
 }
 
 - (std::shared_ptr<RNCNaverMapCircleEventEmitter const>)emitter {
@@ -26,7 +27,9 @@ using namespace facebook::react;
 - (instancetype)init {
   if ((self = [super init])) {
     _inner = [NMFCircleOverlay new];
+    _ignoreTouch = NO;
 
+    /*
     _inner.touchHandler = [self](NMFOverlay* overlay) -> BOOL {
       // In New Arch, this always returns YES at now. should be fixed.
       if (self.emitter) {
@@ -35,6 +38,8 @@ using namespace facebook::react;
       }
       return NO;
     };
+    */
+    [self ensureTouchHandler];
   }
 
   return self;
@@ -47,6 +52,22 @@ using namespace facebook::react;
   }
 
   return self;
+}
+
+- (void)ensureTouchHandler {
+  if (_ignoreTouch) {
+    _inner.touchHandler = nil;
+    return;
+  }
+  if (!_inner.touchHandler) {
+    _inner.touchHandler = [self](NMFOverlay* overlay) -> BOOL {
+      if (self.emitter) {
+        self.emitter->onTapOverlay({});
+        return YES;
+      }
+      return NO;
+    };
+  }
 }
 
 - (void)updateProps:(Props::Shared const&)props oldProps:(Props::Shared const&)oldProps {
@@ -79,6 +100,10 @@ using namespace facebook::react;
     _inner.fillColor = nmap::intToColor(next.color);
   if (prev.outlineColor != next.outlineColor)
     _inner.outlineColor = nmap::intToColor(next.outlineColor);
+
+  if (prev.ignoreTouch != next.ignoreTouch)
+    _ignoreTouch = next.ignoreTouch;
+  [self ensureTouchHandler];
 
   [super updateProps:props oldProps:oldProps];
 }

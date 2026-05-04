@@ -130,6 +130,14 @@ class RNCNaverMapCircleManager : RNCNaverMapCircleManagerSpec<RNCNaverMapCircle>
     it.outlineColor = value
   }
 
+  @ReactProp(name = "ignoreTouch")
+  override fun setIgnoreTouch(
+    view: RNCNaverMapCircle?,
+    value: Boolean,
+  ) {
+    view?.setIgnoreTouch(value)
+  }
+
   // region PROPS
 
   companion object {

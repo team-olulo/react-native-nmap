@@ -196,6 +196,14 @@ class RNCNaverMapMultiPathManager : RNCNaverMapMultiPathManagerSpec<RNCNaverMapM
     it.isHideCollidedCaptions = value
   }
 
+  @ReactProp(name = "ignoreTouch")
+  override fun setIgnoreTouch(
+    view: RNCNaverMapMultiPath?,
+    value: Boolean,
+  ) {
+    view?.setIgnoreTouch(value)
+  }
+
   companion object {
     const val NAME = "RNCNaverMapMultiPath"
   }

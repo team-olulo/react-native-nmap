@@ -55,6 +55,7 @@ export const NaverMapArrowheadPathOverlay = ({
   maxZoom = Const.MAX_ZOOM,
   isMinZoomInclusive,
   isMaxZoomInclusive,
+  ignoreTouch,
 
   coords = [],
   width = 1,
@@ -82,6 +83,7 @@ export const NaverMapArrowheadPathOverlay = ({
       width={width}
       isMinZoomInclusive={isMinZoomInclusive}
       isMaxZoomInclusive={isMaxZoomInclusive}
+      ignoreTouch={ignoreTouch}
       color={processColor(color) as number}
       outlineColor={processColor(outlineColor) as number}
       outlineWidth={outlineWidth}

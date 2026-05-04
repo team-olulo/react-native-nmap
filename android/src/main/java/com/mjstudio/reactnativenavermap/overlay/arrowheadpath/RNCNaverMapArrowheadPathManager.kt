@@ -139,6 +139,14 @@ class RNCNaverMapArrowheadPathManager : RNCNaverMapArrowheadPathManagerSpec<RNCN
     it.headSizeRatio = value.toFloat()
   }
 
+  @ReactProp(name = "ignoreTouch")
+  override fun setIgnoreTouch(
+    view: RNCNaverMapArrowheadPath?,
+    value: Boolean,
+  ) {
+    view?.setIgnoreTouch(value)
+  }
+
   // region PROPS
 
   companion object {
